@@ -1,0 +1,177 @@
+1. Surface Effector
+
+- GameObject → 2D Object → Sprite → Square
+- GameObject → 2D Object → Sprite → Circle
+
+- Select Square (Surface)
+- Add components:
+Add Component → Box Collider 2D < Enable Used By Effector
+Add Component → Surface Effector 2D
+
+- In Surface Effector 2D
+- Change: Speed = 5 (or higher)
+
+- Select Circle
+Add Component → Circle Collider 2D
+Add Component → Rigidbody2D
+
+
+
+2. Platform Effector
+
+- Create a new Square Platform
+- Select Platform
+- Add:
+Box Collider 2D < Used By Effector
+Platform Effector 2D
+Enable in Box Collider 2D 
+Surface Arc = 180
+
+
+
+
+3. Area Effector : Area effector pushes objects in a direction.
+
+- Create a Square
+- Select Square
+- Add:
+Box Collider 2D
+Area Effector 2D
+- Enable:
+Is Trigger
+Used By Effector
+
+In Area Effector 2D
+- Modify:
+Force Angle = 0
+Force Magnitude = 10
+
+- Select Circle
+Rigidbody2D
+Circle Collider 2D
+
+
+- Player Movement Script (Jump & Move)
+- Attach this script to the Circle object.
+- Create script: JumpnMove
+
+using UnityEngine;
+
+public class JumpnMove : MonoBehaviour
+{
+    public float jumpforce = 2f;
+    public float speed = 2f;
+
+    public Rigidbody2D rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        float moveX = Input.GetAxis("Horizontal");
+
+        rb.velocity = new Vector2(moveX * speed, rb.velocity.y);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpforce);
+        }
+    }
+}
+
+- Select Circle
+- Add Component → JumpnMove
+Make sure it also has:
+- Rigidbody2D
+- CircleCollider2D
+
+
+
+
+
+Buoyancy Effector
+
+- Create Square
+- Select Square
+
+- Add:
+Box Collider 2D
+Buoyancy Effector 2D
+- Enable:
+Is Trigger
+Used By Effector
+
+— Adjust Settings
+Density = 1
+Linear Drag = 3
+Angular Drag = 1
+
+
+
+
+Sound Trigger Effector
+
+
+- Create Square
+- Rename: SoundZone
+- Add:
+Box Collider 2D
+Audio Source
+
+- Enable:
+Is Trigger
+   
+- Create script:
+AudioEffector2D
+
+using UnityEngine;
+
+public class AudioEffector2D : MonoBehaviour
+{
+    public AudioSource audioSource;
+    private int playerCount = 0;
+
+    void Awake()
+    {
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        playerCount++;
+
+        if (playerCount == 1 && !audioSource.isPlaying)
+            audioSource.Play();
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        playerCount--;
+
+        if (playerCount <= 0)
+        {
+            playerCount = 0;
+            audioSource.Stop();
+        }
+    }
+}
+
+- Select SoundZone
+- Add Component → AudioEffector2D, Box Collider 2D, Audio Source
+- Then drag audio clip into: Audio Source → AudioClip
+AudioEffector2D script
+- Select Circle (player)
+- In Inspector:
+Tag → Player
+- Drag an audio clip into the AudioSource.
+
+When player enters the zone → sound plays.
+When player leaves → sound stops.
