@@ -1,0 +1,29 @@
+using System;
+public class HelloWorld
+{
+    public static void Main(string[] args)
+    {
+        char grade = 'A';
+        switch (grade)
+        {
+            case 'A':
+                Console.WriteLine("Excellent!");
+                break;
+            case 'B':
+                Console.WriteLine("Good job!");
+                break;
+            case 'C':
+                Console.WriteLine("Fair.");
+                break;
+            case 'D':
+                Console.WriteLine("Needs improvement.");
+                break;
+            case 'F':
+                Console.WriteLine("Failed.");
+                break;
+            default:
+                Console.WriteLine("Invalid grade.");
+                break;
+        }
+    }
+}
