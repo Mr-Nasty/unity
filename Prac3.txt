@@ -1,0 +1,73 @@
+JUMP + MOVE
+using UnityEngine;
+
+public class JumpnMove : MonoBehaviour
+{
+    public float jumpforce = 2f;
+    public float speed = 2f;
+
+    public Rigidbody2D rb;
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        float moveX = Input.GetAxis("Horizontal");
+        rb.linearVelocity = new Vector2(moveX*speed, rb.linearVelocity.y);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpforce);
+        }
+    }
+}
+
+
+
+JUMP + MOVE + COLOR
+using UnityEngine;
+
+public class jumpNmovNcolor : MonoBehaviour
+{
+    public float jumpforce = 2f;
+    public float speed = 2f;
+    public Color leftcolor = Color.red;
+    public Color rightcolor = Color.green;
+    public Color idlecolor = Color.blue;
+
+    public Rigidbody2D rb;
+    public SpriteRenderer sr;
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+    }
+
+    void Update()
+    {
+        float moveX = Input.GetAxis("Horizontal");
+        rb.linearVelocity = new Vector2(moveX*speed, rb.linearVelocity.y);
+
+        if (moveX > 0)
+        {
+            sr.color = rightcolor;
+        }
+        else if (moveX < 0)
+        {
+            sr.color = leftcolor;
+        }
+        else
+        {
+            sr.color = idlecolor;
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpforce);
+        }
+    }
+}
+
+
+- On Surface < Physics 2D < Box Collider 2D < Surface Effector 2D
+- On Object < Rigidbody 2D < Box Collider 2D
