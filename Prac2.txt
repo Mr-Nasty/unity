@@ -1,0 +1,73 @@
+
+using UnityEngine;
+
+public class NewMonoBehaviourScript : MonoBehaviour
+{
+    public float speed = 1f;
+    private Rigidbody2D rb2d;
+
+    void Start()
+    {
+        rb2d = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        float moveX = Input.GetAxis("Horizontal");
+        float moveY = Input.GetAxis("Vertical");
+
+        Vector2 movement = new Vector2(moveX, moveY);
+
+        // FIX: Use velocity instead of LinearVelocity
+        rb2d.linearVelocity = movement * speed;
+    }
+}
+
+
+SCALING
+using UnityEngine;
+
+public class Scaling : MonoBehaviour
+{
+    public float scaleSpeed = 1f;
+    public float minScale = 0.2f;
+    public float maxScale = 5f;
+
+    // Update is called once per frame
+    void Update()
+    {
+        float scaleInput = Input.GetAxis("Vertical");
+
+        // Calculate the new scale factor based on input and speed
+        float newScaleFactor = transform.localScale.x + (scaleInput * scaleSpeed * Time.deltaTime);
+
+        // Clamp the new scale factor within the defined min and max limits
+        newScaleFactor = Mathf.Clamp(newScaleFactor, minScale, maxScale);
+
+        // Apply the new scale to all axes of the object's transform
+        transform.localScale = new Vector3(newScaleFactor, newScaleFactor, newScaleFactor);
+    }
+}
+
+
+Rotation
+using UnityEngine;
+
+public class rotation : MonoBehaviour
+{
+    public float rotationSpeed = 100f;
+    private Rigidbody2D rb2d;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        rb2d = GetComponent<Rigidbody2D>();   // needs Start()
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        float rotateInput = Input.GetAxis("Horizontal");
+        rb2d.MoveRotation(rb2d.rotation - rotateInput * rotationSpeed * Time.deltaTime);
+    }
+}
+
