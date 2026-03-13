@@ -1,0 +1,149 @@
+- Right click → Create → C# Script
+- Name it: ButtonHandler
+
+using UnityEngine;
+
+public class ButtonHandler : MonoBehaviour
+{
+    public void OnButtonClicked()
+    {
+        Debug.Log("Button clicked successfully");
+    }
+}
+
+- Select Button object
+- Select Button object
+- Inspector → Add Component → ButtonHandler
+- In Button component
+- Find OnClick()
+- Click +
+- Drag Button object into the field
+-Select function: ButtonHandler → OnButtonClicked()
+
+
+IMAGE
+
+- GameObject → UI → Image
+- Create script: ImageHandler
+
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ImageHandler : MonoBehaviour
+{
+    public Image myImage;
+
+    void Start()
+    {
+        myImage.color = Color.cyan;
+    }
+}
+
+- Select Image object
+- Click Add Component
+- Add ImageHandler Script
+- Drag Image object into My Image field
+
+
+
+TOGGLE 
+
+- GameObject → UI → Toggle
+- Create script: ToggleHandler
+
+using UnityEngine;
+
+public class ToggleHandler : MonoBehaviour
+{
+    public void UserValueChanged(bool value)
+    {
+        Debug.Log("Toggle value changed: " + value);
+    }
+}
+
+- Select Toggle object
+- Click Add Component
+- Add ToggleHandler Script
+- Click +
+- Drag Toggle object
+- Select: ToggleHandler → UserValueChanged()
+
+
+
+
+SLIDER
+- GameObject → UI → Slider
+- Create script: SliderHandler
+
+using UnityEngine;
+
+public class SliderHandler : MonoBehaviour
+{
+    public void OnSliderValueChanged(float value)
+    {
+        Debug.Log("Slider value changed: " + value);
+    }
+}
+
+- Add SliderHandler script to slider object.
+- In Inspector: Find On Value Changed
+- Click +
+- Drag slider object
+- Select: SliderHandler → OnSliderValueChanged()
+
+
+
+Input Field
+
+- GameObject → UI → Input Field
+- Create Script: InputFieldHandler
+
+using UnityEngine;
+
+public class InputFieldHandler : MonoBehaviour
+{
+    public void OnTextChanged(string text)
+    {
+        Debug.Log("User entered: " + text);
+    }
+}
+
+- Add script to Input Field object.
+- In Inspector: Find On Value Changed
+- Click +
+- Drag Input Field object
+- Select
+- InputFieldHandler → OnTextChanged()
+
+
+
+Dropdown
+
+- GameObject → UI → Dropdown
+- Create script: DropdownHandler
+
+using UnityEngine;
+
+public class DropdownHandler : MonoBehaviour
+{
+    public void OnDropdownValueChanged(int index)
+    {
+        Debug.Log("Dropdown selected index: " + index);
+    }
+}
+
+- Attach script to Dropdown object.
+- In Inspector: Find On Value Changed
+- Click +
+- Drag dropdown object
+- Select: DropdownHandler → OnDropdownValueChanged()
+
+
+
+TextMeshPro
+
+- GameObject → UI → Text - TextMeshPro
+- Unity will ask to Import TMP Essentials.
+- Click Import.
+- Select TextMeshPro object
+- In Inspector change text.
