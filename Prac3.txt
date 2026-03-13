@@ -69,5 +69,5 @@ public class jumpNmovNcolor : MonoBehaviour
 }
 
 
-- On Surface << Box Collider 2D << Surface Effector 2D
+- On Surface << Box Collider 2D << Surface Effector 2D << Box Collider 2D (Used By Effector)
 - On Object << Rigidbody 2D << Box Collider 2D
