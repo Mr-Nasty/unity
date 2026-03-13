@@ -1,0 +1,23 @@
+using UnityEngine;
+
+public class Scaling : MonoBehaviour
+{
+    public float scaleSpeed = 1f;
+    public float minScale = 0.2f;
+    public float maxScale = 5f;
+
+    // Update is called once per frame
+    void Update()
+    {
+        float scaleInput = Input.GetAxis("Vertical");
+
+        // Calculate the new scale factor based on input and speed
+        float newScaleFactor = transform.localScale.x + (scaleInput * scaleSpeed * Time.deltaTime);
+
+        // Clamp the new scale factor within the defined min and max limits
+        newScaleFactor = Mathf.Clamp(newScaleFactor, minScale, maxScale);
+
+        // Apply the new scale to all axes of the object's transform
+        transform.localScale = new Vector3(newScaleFactor, newScaleFactor, newScaleFactor);
+    }
+}
