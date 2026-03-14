@@ -1,0 +1,121 @@
+Step 1 — Download Character from Mixamo
+- Go to: mixamo.com
+- Sign up or log in
+- Click: Characters
+- Choose any character
+- Click: Use this Character
+ 
+ 
+Step 2 — Download Animations
+Search and download these 3 animations:
+ 
+- Search: Walking  → Download: Without Skin
+- Search: Running  → Download: Without Skin
+- Search: Breathing → Download: With Skin
+ 
+You will now have 3 FBX files in your Downloads folder.
+ 
+ 
+Step 3 — Import Files into Unity
+- Copy the 3 downloaded FBX files
+- Paste them into: Unity Project → Assets folder
+Unity will import them automatically.
+ 
+ 
+Step 4 — Add Character to Scene
+- In the Assets folder, find the Breathing FBX file
+- Drag it into the Scene
+- Resize if needed using the Scale Tool
+ 
+ 
+Step 5 — Extract Textures
+- Select the Breathing FBX file in Assets
+- In Inspector → Materials tab → click: Extract Textures
+- A folder window opens → click: Select Folder
+- Click: Ignore on the popup
+Textures are now extracted into your project.
+ 
+ 
+Step 6 — Extract Materials
+- Still in the same Inspector → click: Extract Materials
+- Click: Select Folder
+- Click: Ignore on the popup
+Materials will now appear in your project folder.
+ 
+ 
+Step 7 — Create Animation Folder
+- In Assets: Right Click → Create → Folder
+- Name it: Animation
+ 
+ 
+Step 8 — Rename Animation Clips
+- Select the Breathing FBX file in Assets
+- In Inspector: click the expand arrow (triangle) next to the file
+  This reveals the animation clip inside the FBX
+- Click the clip → click Edit
+- Scroll down → rename the clip: Breathing
+- Click outside to save
+ 
+Do the same for:
+- Walking FBX  → rename clip: Walking
+- Running FBX  → rename clip: Running
+ 
+ 
+Step 9 — Create Animator Controller
+- In Assets → Animation folder
+- Right Click → Create → Animator Controller
+- Name it: CharacterController
+This file controls which animations play and when.
+ 
+ 
+Step 10 — Open Animator Window
+- Select the character in the Scene
+- Window → Animation → Animator
+The Animator window will open.
+ 
+ 
+Step 11 — Add Animations to Animator
+- Drag these animation clips into the Animator window:
+    Breathing
+    Walking
+    Running
+They will appear as animation states in the graph.
+ 
+ 
+Step 12 — Create Transitions
+Right click each state to connect them:
+ 
+- Right click Running   → Make Transition → Breathing
+- Right click Breathing → Make Transition → Walking
+- Right click Walking   → Make Transition → Running
+ 
+Animations will now loop between each other.
+ 
+ 
+Step 13 — Edit Transition Settings
+- Click each transition arrow in the Animator
+- In Inspector:
+    → Uncheck: Has Exit Time
+    → Set Exit Time = 2
+Do this for all transitions.
+ 
+ 
+Step 14 — Enable Loop Time
+- Select the Breathing clip in Assets
+- In Inspector → click Edit
+    → Tick: Loop Time
+Do the same for Walking and Running if needed.
+ 
+ 
+Step 15 — Assign Animator Controller to Character
+- Select the character in the Scene
+- In Inspector find the Animator component
+  (Mixamo characters come with this already attached)
+- In the Controller field:
+    → Drag your CharacterController into that field
+ 
+ 
+Step 16 — Run the Scene
+- Press Play
+- Character will cycle through:
+    Running → Breathing → Walking → repeat
