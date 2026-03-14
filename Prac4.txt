@@ -13,12 +13,12 @@ public class ButtonHandler : MonoBehaviour
 
 - Select Button object
 - Select Button object
-- Inspector → Add Component → ButtonHandler
+- Inspector → Add Component → ButtonHandler Script
 - In Button component
 - Find OnClick()
 - Click +
 - Drag Button object into the field
--Select function: ButtonHandler → OnButtonClicked()
+- Select function: ButtonHandler → OnButtonClicked()
 
 
 IMAGE
