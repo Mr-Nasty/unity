@@ -1,182 +1,135 @@
-Step 1 — Create 3D Project
-
-Open Unity Hub
-
-Create project:
-
-3D Core
+ 
+Step 1 — Create Project
+- Open Unity Hub
+- Create project: 3D Core
+ 
+ 
 Step 2 — Create Ground
-
-Hierarchy:
-
-GameObject → 3D Object → Plane
-
-Rename:
-
-Ground
+- GameObject → 3D Object → Plane
+- Rename: Ground
+ 
+ 
 Step 3 — Create Materials
-
-Project window:
-
-Right Click → Create → Material
-
-Create 3 materials:
-
-GroundMat
-PlayerMat
-EnemyMat
-
-Assign different colors.
-
-Drag materials onto objects.
-
+- In Project window: Right Click → Create → Material
+- Create 3 materials:
+    GroundMat
+    PlayerMat
+    EnemyMat
+- Assign different colors to each
+- Drag each material onto its object
+ 
+ 
 Step 4 — Create Objects
-
-Add objects:
-
-GameObject → 3D Object → Capsule → Player
-GameObject → 3D Object → Capsule → Enemy
-GameObject → 3D Object → Cube → Goal
-
-Rename them:
-
-Player
-Enemy
-Goal
-
-Apply materials.
-
+- GameObject → 3D Object → Capsule → rename: Player
+- GameObject → 3D Object → Capsule → rename: Enemy
+- GameObject → 3D Object → Cube   → rename: Goal
+- Apply materials to each object
+ 
+ 
 Step 5 — Add Rigidbody to Player
-
-Select Player
-
-Add component:
-
-Rigidbody
-
-Uncheck:
-
-Use Gravity ✔
-Freeze Rotation X,Y,Z
-
+- Select Player
+- Add Component → Rigidbody
+    → Uncheck: Use Gravity
+    → Freeze Rotation: X, Y, Z
+ 
+ 
 Step 6 — Create Empty Objects
-
-Hierarchy:
-
-Right Click → Create Empty
-
-Rename:
-
-Navmesh
-GameManager
-
+- In Hierarchy: Right Click → Create Empty
+- Create two and rename them:
+    Navmesh
+    GameManager
+ 
+ 
 Step 7 — Bake NavMesh
-
-Select Ground
-
-Window:
-
-Window → AI → Navigation
-
-Then:
-
-Mark Ground as Navigation Static
-Click Bake
-
-This creates walkable paths for AI.
-
+- Select Ground
+- Window → AI → Navigation
+    → Mark Ground as Navigation Static
+    → Click Bake
+This creates walkable paths for the AI.
+ 
+ 
 Step 8 — Enemy Setup
-
-Select Enemy
-
-Add component:
-
-NavMeshAgent
-
-This allows AI movement.
-
+- Select Enemy
+- Add Component → NavMesh Agent
+This allows the AI to move along the baked NavMesh.
+ 
+ 
 Step 9 — Create Scripts
-
 Create 4 scripts:
-
-Player.cs
-AI_Player.cs
-Goal.cs
-GameManager.cs
-Player.cs
-
-Attach to Player object
-
+    Player.cs
+    AI_Player.cs
+    Goal.cs
+    GameManager.cs
+ 
+ 
+--------------------------------------------
+Player.cs — Attach to Player object
+--------------------------------------------
+ 
 using UnityEngine;
-
 public class player : MonoBehaviour
 {
     public float speed = 5f;
     Rigidbody rb;
-
+ 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
-
+ 
     void FixedUpdate()
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-
-        Vector3 move = new Vector3(h,0,v)*speed;
-
-        rb.linearVelocity = new Vector3(move.x,rb.linearVelocity.y,move.z);
+        Vector3 move = new Vector3(h, 0, v) * speed;
+        rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
     }
 }
-
-Controls:
-
-WASD / Arrow keys
-AI_Player.cs
-
-Attach to Enemy
-
+ 
+Controls: WASD or Arrow Keys
+ 
+ 
+--------------------------------------------
+AI_Player.cs — Attach to Enemy object
+--------------------------------------------
+ 
 using UnityEngine;
 using UnityEngine.AI;
-
 public class AI_Player : MonoBehaviour
 {
     public Transform target;
     public float speed = 3.5f;
-
     private NavMeshAgent agent;
-
+ 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
     }
-
+ 
     void Update()
     {
-        if(target != null)
+        if (target != null)
         {
             agent.SetDestination(target.position);
         }
     }
 }
-
-Then in Inspector:
-
-Enemy → Target → Drag Player
-Goal.cs
-
-Attach to Goal object
-
-Add component first:
-
-Box Collider → Is Trigger ✔
-
-Script:
-
+ 
+- Select Enemy → In Inspector → AI_Player → Target field
+- Drag Player into that field
+ 
+ 
+--------------------------------------------
+Goal.cs — Attach to Goal object
+--------------------------------------------
+ 
+- Select Goal
+- Add Component → Box Collider
+    → Tick: Is Trigger
+- Add Component → Goal script
+ 
 using UnityEngine;
-
 public class Goal : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
@@ -186,59 +139,62 @@ public class Goal : MonoBehaviour
             Debug.Log("Player Wins!");
             Time.timeScale = 0;
         }
-        else if(other.CompareTag("Enemy"))
+        else if (other.CompareTag("Enemy"))
         {
             Debug.Log("AI Wins!");
             Time.timeScale = 0;
         }
     }
 }
-
-Set tags:
-
-Player → Tag Player
-Enemy → Tag Enemy
-GameManager.cs
-
-Attach to GameManager object
-
+ 
+- Set Tags:
+    Select Player → Inspector → Tag → Player
+    Select Enemy  → Inspector → Tag → Enemy
+ 
+ 
+--------------------------------------------
+GameManager.cs — Attach to GameManager object
+--------------------------------------------
+NOTE: QuitGame() works in both Editor and exported builds.
+      The #if block below prevents a build error.
+ 
 using UnityEngine;
-
 public class GameManager : MonoBehaviour
 {
     public GameObject player;
     public GameObject ai;
     public GameObject goal;
-
+ 
     void Update()
     {
         float playerDistance =
-        Vector3.Distance(player.transform.position, goal.transform.position);
-
+            Vector3.Distance(player.transform.position, goal.transform.position);
         float aiDistance =
-        Vector3.Distance(ai.transform.position, goal.transform.position);
-
+            Vector3.Distance(ai.transform.position, goal.transform.position);
+ 
         if (playerDistance < 2.0f)
         {
             Debug.Log("Player Wins!");
             QuitGame();
         }
-        else if(aiDistance < 2.0f)
+        else if (aiDistance < 2.0f)
         {
             Debug.Log("AI Wins!");
             QuitGame();
         }
     }
-
+ 
     void QuitGame()
     {
         Application.Quit();
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }
-
-In Inspector connect:
-
-Player
-Enemy
-Goal
+ 
+- Select GameManager object → In Inspector → GameManager script
+- Drag into each field:
+    Player → Player object
+    Ai     → Enemy object
+    Goal   → Goal object
