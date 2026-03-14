@@ -1,0 +1,192 @@
+Step 2 — Download Character from Mixamo
+
+Go to Mixamo website
+
+Sign up / log in
+
+Click Characters
+
+Choose any character
+
+Click: Use this Character
+
+
+Step 3 — Download Animations
+
+Search for animations.
+- Walking
+- Search: Walking
+- Download: Without Skin
+
+Search: Running
+Download: Without Skin
+Search: Breathing
+Download: With Skin
+
+Now you will have 3 files in Downloads.
+
+Step 4 — Import Files into Unity
+
+Copy downloaded files.
+
+Paste into:
+
+Unity Project → Assets Folder
+
+Unity will import them automatically.
+
+Step 5 — Add Character to Scene
+
+In Assets folder
+
+Drag the Breathing character into the Scene.
+
+Resize if necessary using Scale Tool.
+
+Step 6 — Export Textures
+
+Select breathing character in Assets.
+
+In Inspector:
+
+Materials → Extract Textures
+
+Unity opens a folder selection window.
+
+Click:
+
+Select Folder
+
+Then:
+
+Ignore
+
+This extracts textures.
+
+Step 7 — Export Materials
+
+Still in Inspector:
+
+Extract Materials
+
+Again:
+
+Select Folder
+Ignore
+
+Materials will now appear in project.
+
+Step 8 — Create Animation Folder
+
+In Assets:
+
+Right Click → Create Folder
+
+Name it:
+
+Animation
+Step 9 — Create Animation Clips
+
+Select animation file (example breathing).
+
+In Inspector:
+
+Click the triangle icon next to animation
+
+Click Edit
+
+Scroll down.
+
+Rename animation clip:
+
+Breathing
+
+Click outside to save.
+
+Do the same for:
+
+Running
+Walking
+
+Step 10 — Open Animator
+
+Select the character in scene.
+
+Open:
+
+Window → Animation → Animator
+Step 11 — Add Animations to Animator
+
+Drag animation clips into the Animator window:
+
+Running
+Breathing
+Walking
+
+These appear as animation states.
+
+Step 12 — Create Transitions
+
+Connect animations.
+
+Running → Breathing
+
+Right click:
+
+Running → Make Transition → Breathing
+Breathing → Walking
+
+Right click:
+
+Breathing → Make Transition → Walking
+Walking → Running
+
+Right click:
+
+Walking → Make Transition → Running
+
+Now animations loop between each other.
+
+Step 13 — Edit Transition Settings
+
+Click transition arrow.
+
+In Inspector:
+
+Exit Time = 2
+
+Apply the same setting to all transitions.
+
+Step 14 — Enable Loop Animation
+
+Select Breathing animation clip.
+
+In Inspector:
+
+Edit → Loop Time ✔
+
+Do the same if needed for other animations.
+
+Step 15 — Add Animator Component
+
+Select the character in scene.
+
+Add component:
+
+Animator
+
+In Animator Controller field:
+
+Drag the animation controller you created.
+
+Step 16 — Run the Scene
+
+Press Play.
+
+Character will:
+
+Run
+↓
+Breath
+↓
+Walk
