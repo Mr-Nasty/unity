@@ -1,131 +1,101 @@
-- Open Unity project.
-- Create two scenes:
-- Save them as:
-MainScene
-Prac5
-- Add scenes to Build Settings
-- File → Build Profiles → Scene List
-- Add Open Scenes
-- Make sure both scenes are checked.
-
-1. Loading Scene
-
+SETUP
+- Open Unity project
+- Create two scenes and save them as:
+    MainScene
+    Prac5
+- Add both scenes to Build Settings:
+    File → Build Profiles → Scene List
+    → Click: Add Open Scenes
+    → Make sure both scenes are checked
+ 
+ 
+1. LOADING SCENE
+Loads a new scene and replaces the current one.
+ 
 - GameObject → UI → Button
-- Do not resize.
 - Create script: load
-
+- Attach to Button
+ 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class load : MonoBehaviour
 {
     public void LoadScene()
     {
         SceneManager.LoadScene("Prac5");
     }
-
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
 }
-
-- Select Button
-- Add Component → load
  
-- In Button Inspector < OnClick() < Click + < Drag Button < Select load → LoadScene()
-
-
-
-
-2. Asynchronous Loading
-
-Asynchronous loading loads a scene without freezing the game.
-
-- Keep the same button.
+- Select Button
+- In Button Inspector → OnClick() → Click +
+- Drag Button into the field
+- Select: load → LoadScene()
+ 
+ 
+2. ASYNCHRONOUS LOADING
+Loads a scene in the background without freezing the game.
+ 
+- Keep the same Button
 - Create script: asyncload
-
+- Attach to Button
+ 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-
 public class asyncload : MonoBehaviour
 {
     public void StartLoading()
     {
         StartCoroutine(LoadAsync());
     }
-
     IEnumerator LoadAsync()
     {
         AsyncOperation operation =
             SceneManager.LoadSceneAsync("Prac5");
-
         while (!operation.isDone)
         {
-            Debug.Log("Loading : " + (operation.progress * 100) + "%");
+            Debug.Log("Loading: " + (operation.progress * 100) + "%");
             yield return null;
         }
     }
 }
-
-- Select Button < Add Component → asyncload
-
-- OnClick() -> asyncload → StartLoading()
-
-
-
-
-3. Additive Loading
-
-Additive loading loads multiple scenes at the same time.
-
+ 
+- Select Button → OnClick() → Click +
+- Drag Button into the field
+- Select: asyncload → StartLoading()
+ 
+ 
+3. ADDITIVE LOADING
+Loads a new scene on top of the current one (both run at the same time).
+ 
 - Create script: addload
-
+- Attach to Button
+ 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class addload : MonoBehaviour
 {
     public void LoadSceneAdd()
     {
         SceneManager.LoadScene("Prac5", LoadSceneMode.Additive);
     }
-
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
 }
-
-- Select Button
-- Add Component → addload Script
-
-- OnClick()
+ 
+- Select Button → OnClick() → Click +
+- Drag Button into the field
 - Select: addload → LoadSceneAdd()
-
-
-
-
-4. Unloading Scene
-
-This removes a loaded scene.
-
+ 
+ 
+4. UNLOADING SCENE
+Removes a scene that was loaded additively.
+NOTE: This only works on scenes loaded with Additive mode.
+      Run Additive Loading first, then Unload.
+ 
 - Create script: unload
-
+- Attach to Button
+ 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class unload : MonoBehaviour
 {
     public void UnloadScene()
@@ -133,8 +103,7 @@ public class unload : MonoBehaviour
         SceneManager.UnloadSceneAsync("Prac5");
     }
 }
-
-- Select Button
-- Add Component → unload script
-- OnClick()
+ 
+- Select Button → OnClick() → Click +
+- Drag Button into the field
 - Select: unload → UnloadScene()
