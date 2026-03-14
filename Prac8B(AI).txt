@@ -1,89 +1,73 @@
-Step 1 — Create 3D Scene
-
-Create objects in the Hierarchy:
-
-GameObject → 3D Object → Plane
-GameObject → 3D Object → Capsule → Player
-GameObject → 3D Object → Capsule → Enemy
-
-Rename them:
-
-Plane → Ground
-Capsule → Player
-Capsule → Enemy
-
+Step 1 — Create Scene
+- GameObject → 3D Object → Plane   → rename: Ground
+- GameObject → 3D Object → Capsule → rename: Player
+- GameObject → 3D Object → Capsule → rename: Enemy
+ 
+ 
+Step 2 — Bake NavMesh
 - Select Ground (Plane)
-- In Inspector enable: Navigation Static
-- Open Navigation window: Window → AI → Navigation
-- Click: Bake
-Now the AI can move on the plane.
-
+- In Inspector: tick Navigation Static
+- Window → AI → Navigation → Click Bake
+Now the AI can walk on the plane.
+ 
+ 
+Step 3 — Enemy Setup
 - Select Enemy
-- Add component: NavMeshAgent
-This allows the enemy to move using Unity’s pathfinding.
-
-Player1.cs
-
-Attach it to Player object.
-
-Code:
-
+- Add Component → NavMesh Agent
+This lets the Enemy use Unity pathfinding.
+ 
+ 
+Step 4 — Player Script
+- Create script: Player1
+- Attach to Player object
+ 
 using UnityEngine;
-
 public class Player1 : MonoBehaviour
 {
     public float speed = 5.0f;
-
+ 
     void Update()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
+        float moveVertical   = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-
         transform.Translate(movement * speed * Time.deltaTime, Space.World);
     }
 }
-
-Controls:
-Arrow Keys / WASD → Move Player
-
+ 
+Controls: WASD or Arrow Keys → Move Player
+ 
+ 
 Step 5 — Enemy AI Script
-
-Create script:
-
-AIChasePlayer.cs
-
-Attach it to Enemy object.
-
-Code:
-
+- Create script: AIChasePlayer
+- Attach to Enemy object
+ 
+NOTE: StopGame() works in both Editor and exported builds.
+      The #if block prevents a build error.
+ 
 using UnityEngine;
 using UnityEngine.AI;
-
 public class AIChasePlayer : MonoBehaviour
 {
     public Transform player;
     public float detectionRange = 10.0f;
-
     private NavMeshAgent agent;
-
+ 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
     }
-
+ 
     void Update()
     {
-        if (Vector3.Distance(transform.position, player.position) < detectionRange)
+        float distance = Vector3.Distance(transform.position, player.position);
+ 
+        if (distance < detectionRange)
         {
             agent.SetDestination(player.position);
             Debug.Log("AI is chasing the player");
-
-            float playerDistance =
-            Vector3.Distance(player.transform.position, agent.transform.position);
-
-            if (playerDistance < 0.5f)
+ 
+            if (distance < 0.5f)
             {
                 Debug.Log("Enemy Wins!");
                 StopGame();
@@ -94,23 +78,20 @@ public class AIChasePlayer : MonoBehaviour
             agent.ResetPath();
         }
     }
-
+ 
     void StopGame()
     {
         Debug.Log("Game Over! The enemy caught you.");
         Application.Quit();
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }
-
+ 
+ 
 Step 6 — Link Player to Enemy
-
-Select Enemy object.
-
-In Inspector you will see:
-
-AIChasePlayer → Player
-
-Drag the Player object into that field.
-
+- Select Enemy object
+- In Inspector → AIChasePlayer → Player field
+- Drag the Player object into that field
 This tells the AI who to chase.
